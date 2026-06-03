@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* StratesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* StratesApp.swift */; };
-		A1000002 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* WordModel.swift */; };
-		A1000003 /* PersistenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* PersistenceModel.swift */; };
-		A1000004 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* GameViewModel.swift */; };
-		A1000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* ContentView.swift */; };
-		A1000006 /* PartageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* PartageView.swift */; };
-		A1000007 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* StatsView.swift */; };
-		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008 /* Assets.xcassets */; };
-		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* SoundManager.swift */; };
-		A1000010 /* MascoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010 /* MascoView.swift */; };
-		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011 /* ScoreView.swift */; };
+		A1000001 /* StratesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001; };
+		A1000002 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002; };
+		A1000003 /* PersistenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003; };
+		A1000004 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004; };
+		A1000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005; };
+		A1000006 /* PartageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006; };
+		A1000007 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007; };
+		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008; };
+		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
+		A1000010 /* MascoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011; };
+		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,16 +81,9 @@
 				A2000005 /* ContentView.swift */,
 				A2000006 /* PartageView.swift */,
 				A2000007 /* StatsView.swift */,
+				A2000010 /* SoundManager.swift */,
 				A2000011 /* MascoView.swift */,
 				A2000012 /* ScoreView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		A4000006 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				A2000010 /* SoundManager.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -200,9 +193,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -213,7 +204,6 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -222,7 +212,6 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -262,9 +251,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -275,7 +262,6 @@
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -284,7 +270,6 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
