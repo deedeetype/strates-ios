@@ -97,8 +97,13 @@ struct Calendrier {
     static func motDuJour() -> MotDuJour {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-        let reference = calendar.startOfDay(for: DateComponents(calendar: calendar, year: 2025, month: 1, day: 1).date!)
-        let daysSinceReference = calendar.dateComponents([.day], from: reference!, to: today).day ?? 0
+        var comps = DateComponents()
+        comps.year = 2025
+        comps.month = 1
+        comps.day = 1
+        let referenceDate = calendar.date(from: comps) ?? Date()
+        let reference = calendar.startOfDay(for: referenceDate)
+        let daysSinceReference = calendar.dateComponents([.day], from: reference, to: today).day ?? 0
         let index = ((daysSinceReference % mots.count) + mots.count) % mots.count
         return mots[index]
     }
