@@ -3,7 +3,7 @@ import Combine
 
 // MARK: - Phase de jeu
 
-enum PhaseJeu {
+enum PhaseJeu: Equatable {
     case enCours
     case gagne(strate: Int)
     case perdu
@@ -24,7 +24,7 @@ final class GameViewModel: ObservableObject {
 
     // État publié
     @Published private(set) var mot: MotDuJour
-    @Published private(set) var stratesRevelees: Int = 0   // 0 = seulement strate 6 visible
+    @Published private(set) var stratesRevelees: Int = 0
     @Published private(set) var tentatives: [String] = []
     @Published private(set) var phase: PhaseJeu = .enCours
     @Published private(set) var dernierResultat: ResultatTentative? = nil
@@ -32,9 +32,20 @@ final class GameViewModel: ObservableObject {
     @Published var montrerStats: Bool = false
     @Published var montrerPartage: Bool = false
 
-    // Propriétés calculées
+    // Score en temps réel
+    @Published private(set) var scoreActuel: Int = 1000
+    @Published private(set) var scoreDelta: Int = 0       // +/- affiché en animation
+    @Published private(set) var showDelta: Bool = false
+    @Published private(set) var shakeTrigger: Int = 0    // incrémenté pour déclencher shake
+
+    // Mascotte
+    @Published private(set) var mascoState: MascoState = .idle
+
+    // Score par strate disponible (decremental)
+    private let scoreParStrate: [Int] = [1000, 800, 600, 400, 250, 100]
+    private var penaliteTentative: Int = 50
+
     var stratesVisibles: [Strate] {
-        // strates[0] = strate 6 (plus vague), strates[5] = strate 1 (plus précise)
         Array(mot.strates.prefix(stratesRevelees + 1))
     }
 
@@ -49,16 +60,20 @@ final class GameViewModel: ObservableObject {
     }
 
     var strateActuelle: Int {
-        // Numéro de strate courante (6 → 1)
         mot.strates[stratesRevelees].id
     }
 
+    var scoreMax: Int { scoreParStrate[0] }
+
+    var scoreProgression: Double {
+        Double(scoreActuel) / Double(scoreMax)
+    }
+
     var scoreEmoji: String {
-        let total = mot.strates.count  // 6
+        let total = mot.strates.count
         return (0..<total).map { i in
             switch phase {
             case .gagne(let strate):
-                // La strate à laquelle on a trouvé
                 let strateNum = mot.strates[i].id
                 return strateNum > strate ? "🟫" : "⬜"
             case .perdu, .enCours:
@@ -71,7 +86,7 @@ final class GameViewModel: ObservableObject {
         let dateStr = EtatJournalier.dateISO()
         switch phase {
         case .gagne(let strate):
-            return "STRATES 🪨 — \(dateStr)\n\(scoreEmoji)\nTrouvé à la strate \(strate) !"
+            return "STRATES 🪨 — \(dateStr)\n\(scoreEmoji)\nTrouvé à la strate \(strate) ! Score : \(scoreActuel) pts"
         case .perdu:
             return "STRATES 🪨 — \(dateStr)\n\(scoreEmoji)\nDéfaite..."
         case .enCours:
@@ -79,10 +94,9 @@ final class GameViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Init
-
     init() {
         self.mot = Calendrier.motDuJour()
+        self.scoreActuel = scoreParStrate[0]
         chargerEtat()
     }
 
@@ -90,13 +104,28 @@ final class GameViewModel: ObservableObject {
 
     func révélerStrate() {
         guard peutRévélerSuivante else { return }
+
+        SoundManager.shared.playReveal()
+        SoundManager.shared.hapticLight()
+
         withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
             stratesRevelees += 1
         }
 
-        // Dernière strate révélée → défaite automatique si aucune tentative correcte
-        if stratesRevelees == mot.strates.count - 1 {
-            // Le joueur voit la strate 1, il peut encore tenter
+        // Pénalité score pour révélation
+        let ancienScore = scoreActuel
+        let nouveauScore = scoreParStrate[min(stratesRevelees, scoreParStrate.count - 1)]
+        let delta = nouveauScore - ancienScore
+
+        withAnimation(.easeOut(duration: 0.3).delay(0.2)) {
+            scoreActuel = nouveauScore
+        }
+        afficherDelta(delta)
+
+        // Mascotte réagit
+        withAnimation { mascoState = .curious }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
+            withAnimation { self?.mascoState = .idle }
         }
 
         sauvegarderEtat()
@@ -105,37 +134,62 @@ final class GameViewModel: ObservableObject {
 
     func tenterMot() {
         guard case .enCours = phase else { return }
-        let mot = champSaisie.trimmingCharacters(in: .whitespaces).uppercased()
-        guard !mot.isEmpty else {
+        let input = champSaisie.trimmingCharacters(in: .whitespaces).uppercased()
+        guard !input.isEmpty else {
             dernierResultat = .motVide
             return
         }
 
         champSaisie = ""
 
-        if mot == self.mot.reponse {
-            tentatives.append(mot)
+        if input == mot.reponse {
+            tentatives.append(input)
             let strate = strateActuelle
             phase = .gagne(strate: strate)
             dernierResultat = .correct
 
+            SoundManager.shared.playVictory()
+            SoundManager.shared.hapticSuccess()
+
+            // Mascotte victoire
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+                mascoState = .celebrating
+            }
+
             var stats = Statistiques.charger()
             stats.enregistrerVictoire(strate: strate)
-
             sauvegarderEtat()
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
                 self?.montrerPartage = true
             }
         } else {
-            tentatives.append(mot)
+            tentatives.append(input)
             dernierResultat = .incorrect
 
-            // Si c'était la dernière strate et mauvaise tentative → possibilité de défaite
-            // (la défaite est déclarée uniquement par le bouton "révéler" quand plus de strates)
+            SoundManager.shared.playIncorrect()
+            SoundManager.shared.hapticError()
+
+            // Shake
+            shakeTrigger += 1
+
+            // Pénalité tentative
+            let delta = -penaliteTentative
+            let nouveauScore = max(0, scoreActuel + delta)
+            withAnimation(.easeOut(duration: 0.4)) {
+                scoreActuel = nouveauScore
+            }
+            afficherDelta(delta)
+
+            // Mascotte triste
+            withAnimation { mascoState = .sad }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                withAnimation { self?.mascoState = .idle }
+            }
+
             sauvegarderEtat()
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
                 self?.clearResultat()
             }
         }
@@ -146,9 +200,13 @@ final class GameViewModel: ObservableObject {
         phase = .perdu
         dernierResultat = nil
 
+        SoundManager.shared.playDefeat()
+        SoundManager.shared.hapticError()
+
+        withAnimation { mascoState = .sad }
+
         var stats = Statistiques.charger()
         stats.enregistrerDefaite()
-
         sauvegarderEtat()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
@@ -160,20 +218,35 @@ final class GameViewModel: ObservableObject {
         dernierResultat = nil
     }
 
+    // MARK: - Score delta
+
+    private func afficherDelta(_ delta: Int) {
+        scoreDelta = delta
+        withAnimation(.easeIn(duration: 0.15)) {
+            showDelta = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
+            withAnimation(.easeOut(duration: 0.3)) {
+                self?.showDelta = false
+            }
+        }
+    }
+
     // MARK: - Persistence
 
     private func chargerEtat() {
         guard let etat = EtatJournalier.charger(), etat.motID == mot.id else { return }
-
         stratesRevelees = min(etat.stratesRevelees, mot.strates.count - 1)
         tentatives = etat.tentatives
+        scoreActuel = etat.score
 
         if etat.estGagne {
-            // Retrouver à quelle strate on a gagné
             let strateVictoire = mot.strates[stratesRevelees].id
             phase = .gagne(strate: strateVictoire)
+            mascoState = .celebrating
         } else if etat.estPerdu {
             phase = .perdu
+            mascoState = .sad
         }
     }
 
@@ -184,15 +257,23 @@ final class GameViewModel: ObservableObject {
             stratesRevelees: stratesRevelees,
             tentatives: tentatives,
             estGagne: false,
-            estPerdu: false
+            estPerdu: false,
+            score: scoreActuel
         )
-
         switch phase {
         case .gagne: etat.estGagne = true
         case .perdu: etat.estPerdu = true
         case .enCours: break
         }
-
         etat.sauvegarder()
     }
+}
+
+// MARK: - État mascotte
+
+enum MascoState: Equatable {
+    case idle
+    case curious
+    case celebrating
+    case sad
 }

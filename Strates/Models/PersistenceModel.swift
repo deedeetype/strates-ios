@@ -3,12 +3,13 @@ import Foundation
 // MARK: - État sauvegardé (UserDefaults)
 
 struct EtatJournalier: Codable {
-    let dateISO: String          // "2025-06-03"
+    let dateISO: String
     let motID: Int
-    var stratesRevelees: Int     // nombre de strates révélées (0–6)
-    var tentatives: [String]     // mots essayés (majuscules)
+    var stratesRevelees: Int
+    var tentatives: [String]
     var estGagne: Bool
     var estPerdu: Bool
+    var score: Int
 
     static func dateISO(for date: Date = Date()) -> String {
         let fmt = DateFormatter()
@@ -20,10 +21,8 @@ struct EtatJournalier: Codable {
         guard let data = UserDefaults.standard.data(forKey: "etatJournalier"),
               let etat = try? JSONDecoder().decode(EtatJournalier.self, from: data)
         else { return nil }
-
         let aujourdHui = dateISO()
         guard etat.dateISO == aujourdHui else { return nil }
-
         return etat
     }
 
@@ -41,7 +40,9 @@ struct Statistiques: Codable {
     var partiesGagnees: Int = 0
     var serieActuelle: Int = 0
     var meilleureSerieActuelle: Int = 0
-    var distributionStrates: [Int: Int] = [:]  // strate → nb de victoires
+    var distributionStrates: [Int: Int] = [:]
+    var meilleurScore: Int = 0
+    var scoreCumulatif: Int = 0
 
     static func charger() -> Statistiques {
         guard let data = UserDefaults.standard.data(forKey: "statistiques"),
@@ -50,12 +51,14 @@ struct Statistiques: Codable {
         return stats
     }
 
-    mutating func enregistrerVictoire(strate: Int) {
+    mutating func enregistrerVictoire(strate: Int, score: Int = 0) {
         partiesJouees += 1
         partiesGagnees += 1
         serieActuelle += 1
         meilleureSerieActuelle = max(meilleureSerieActuelle, serieActuelle)
         distributionStrates[strate, default: 0] += 1
+        meilleurScore = max(meilleurScore, score)
+        scoreCumulatif += score
         sauvegarder()
     }
 
@@ -74,5 +77,10 @@ struct Statistiques: Codable {
     var tauxVictoire: Int {
         guard partiesJouees > 0 else { return 0 }
         return Int(Double(partiesGagnees) / Double(partiesJouees) * 100)
+    }
+
+    var scoreMoyen: Int {
+        guard partiesGagnees > 0 else { return 0 }
+        return scoreCumulatif / partiesGagnees
     }
 }

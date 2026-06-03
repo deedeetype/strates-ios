@@ -15,6 +15,9 @@
 		A1000006 /* PartageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* PartageView.swift */; };
 		A1000007 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* StatsView.swift */; };
 		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008 /* Assets.xcassets */; };
+		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* SoundManager.swift */; };
+		A1000010 /* MascoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010 /* MascoView.swift */; };
+		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011 /* ScoreView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		A2000007 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		A2000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000009 /* Strates.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Strates.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000010 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
+		A2000011 /* MascoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascoView.swift; sourceTree = "<group>"; };
+		A2000012 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,16 @@
 				A2000005 /* ContentView.swift */,
 				A2000006 /* PartageView.swift */,
 				A2000007 /* StatsView.swift */,
+				A2000011 /* MascoView.swift */,
+				A2000012 /* ScoreView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A4000006 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				A2000010 /* SoundManager.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,6 +187,9 @@
 				A1000005 /* ContentView.swift in Sources */,
 				A1000006 /* PartageView.swift in Sources */,
 				A1000007 /* StatsView.swift in Sources */,
+				A1000009 /* SoundManager.swift in Sources */,
+				A1000010 /* MascoView.swift in Sources */,
+				A1000011 /* ScoreView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
