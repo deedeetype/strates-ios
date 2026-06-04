@@ -73,9 +73,6 @@ struct ContentView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    }
-                }
                 ToolbarItem(placement: .principal) {
                     streakBadge
                 }
