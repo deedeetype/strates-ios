@@ -2,144 +2,60 @@ import AVFoundation
 import AudioToolbox
 import UIKit
 
-// MARK: - Sons synthétiques via AVAudioEngine (zéro fichier requis)
+// MARK: - SoundManager
+// Sons générés en mémoire (PCM → AVAudioPlayer), zéro fichier requis.
+// Fonctionne sur simulateur ET device physique.
 
 final class SoundManager {
     static let shared = SoundManager()
-    private let engine = AVAudioEngine()
-    private let mixer: AVAudioMixerNode
+    private var players: [AVAudioPlayer] = []   // garder en vie
 
     private init() {
-        mixer = engine.mainMixerNode
-        try? AVAudioSession.sharedInstance().setCategory(.ambient, options: .mixWithOthers)
-        try? AVAudioSession.sharedInstance().setActive(true)
-        try? engine.start()
+        configureSession()
     }
 
-    // MARK: - Sons synthétiques
+    // MARK: - Session audio
 
-    /// Joue une séquence de tonalités
-    func playTones(_ notes: [(frequency: Float, duration: Float, volume: Float)]) {
-        let sampleRate: Double = 44100
-        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
-
-        let startTime = AVAudioTime(hostTime: mach_absolute_time() + UInt64(0.01 * Double(NSEC_PER_SEC)))
-
-        for (i, note) in notes.enumerated() {
-            let frameCount = AVAudioFrameCount(Double(note.duration) * sampleRate)
-            guard let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCount) else { continue }
-            buf.frameLength = frameCount
-
-            let channelData = buf.floatChannelData![0]
-            let freq = Double(note.frequency)
-            let vol = Double(note.volume)
-
-            for frame in 0..<Int(frameCount) {
-                let t = Double(frame) / sampleRate
-                // Onde sinusoïdale + enveloppe ADSR simple
-                let envelope: Double
-                let attack = 0.02, decay = 0.05, release = 0.08
-                let sustain = max(0, Double(note.duration) - attack - decay - release)
-                if t < attack {
-                    envelope = t / attack
-                } else if t < attack + decay {
-                    envelope = 1.0 - 0.2 * ((t - attack) / decay)
-                } else if t < attack + decay + sustain {
-                    envelope = 0.8
-                } else {
-                    let rel = t - attack - decay - sustain
-                    envelope = 0.8 * max(0, 1.0 - rel / release)
-                }
-                channelData[frame] = Float(sin(2.0 * .pi * freq * t) * vol * envelope)
-            }
-
-            let player = AVAudioPlayerNode()
-            engine.attach(player)
-            engine.connect(player, to: mixer, format: format)
-            player.scheduleBuffer(buf, completionHandler: nil)
-
-            let delay = notes.prefix(i).reduce(0.0) { $0 + Double($1.duration) }
-            let playTime = AVAudioTime(
-                hostTime: startTime.hostTime + UInt64(delay * Double(NSEC_PER_SEC))
-            )
-            player.play(at: playTime)
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay + Double(note.duration) + 0.1) {
-                self.engine.detach(player)
-            }
-        }
+    private func configureSession() {
+        let session = AVAudioSession.sharedInstance()
+        try? session.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
+        try? session.setActive(true)
     }
 
-    // MARK: - Sons de jeu
+    // MARK: - API publique
 
-    func playReveal() {
-        // Swoosh montant doux
-        playTones([
-            (frequency: 440, duration: 0.07, volume: 0.3),
-            (frequency: 550, duration: 0.07, volume: 0.35),
-            (frequency: 660, duration: 0.10, volume: 0.4),
-        ])
-        hapticLight()
-    }
-
-    func playCorrect() {
-        // Ding ding ascendant — victoire partielle
-        playTones([
-            (frequency: 523, duration: 0.10, volume: 0.5),
-            (frequency: 659, duration: 0.10, volume: 0.5),
-            (frequency: 784, duration: 0.18, volume: 0.55),
-        ])
-        hapticSuccess()
-    }
-
-    func playIncorrect() {
-        // Buzz grave descendant
-        playTones([
-            (frequency: 300, duration: 0.12, volume: 0.45),
-            (frequency: 220, duration: 0.18, volume: 0.4),
-        ])
-        hapticError()
-    }
-
-    func playHeartLost() {
-        // Son dramatique — cœur perdu
-        playTones([
-            (frequency: 400, duration: 0.08, volume: 0.5),
-            (frequency: 180, duration: 0.30, volume: 0.45),
-        ])
-        UINotificationFeedbackGenerator().notificationOccurred(.error)
-    }
+    func playReveal()    { play(notes: [(523, 0.07), (659, 0.07), (784, 0.12)], volume: 0.45) }
+    func playCorrect()   { play(notes: [(523, 0.08), (659, 0.08), (784, 0.08), (1047, 0.20)], volume: 0.55) }
+    func playIncorrect() { play(notes: [(330, 0.10), (220, 0.22)], volume: 0.45) }
+    func playHeartLost() { play(notes: [(440, 0.06), (180, 0.28)], volume: 0.50) }
 
     func playVictory() {
-        // Fanfare montante
-        playTones([
-            (frequency: 523, duration: 0.10, volume: 0.55),
-            (frequency: 659, duration: 0.10, volume: 0.55),
-            (frequency: 784, duration: 0.10, volume: 0.55),
-            (frequency: 1047, duration: 0.35, volume: 0.65),
-        ])
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        play(notes: [
+            (523,  0.08), (659,  0.08), (784,  0.08),
+            (1047, 0.08), (1319, 0.30)
+        ], volume: 0.65)
     }
 
     func playDefeat() {
-        // Descente triste
-        playTones([
-            (frequency: 440, duration: 0.15, volume: 0.45),
-            (frequency: 370, duration: 0.15, volume: 0.42),
-            (frequency: 311, duration: 0.25, volume: 0.38),
-        ])
-        UINotificationFeedbackGenerator().notificationOccurred(.error)
+        play(notes: [(440, 0.14), (370, 0.14), (311, 0.14), (262, 0.28)], volume: 0.45)
     }
 
     func playStreak() {
-        // Montée joyeuse — série active
-        playTones([
-            (frequency: 659, duration: 0.08, volume: 0.5),
-            (frequency: 784, duration: 0.08, volume: 0.5),
-            (frequency: 988, duration: 0.08, volume: 0.5),
-            (frequency: 1175, duration: 0.20, volume: 0.6),
-        ])
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        play(notes: [
+            (659,  0.07), (784,  0.07), (988,  0.07),
+            (1175, 0.07), (1319, 0.25)
+        ], volume: 0.60)
+    }
+
+    func playNextWord() {
+        play(notes: [(784, 0.08), (988, 0.08), (1175, 0.18)], volume: 0.45)
+    }
+
+    func playCombo() {
+        play(notes: [
+            (784,  0.06), (988,  0.06), (1175, 0.06),
+            (1568, 0.06), (1976, 0.22)
+        ], volume: 0.60)
     }
 
     // MARK: - Haptics
@@ -149,4 +65,108 @@ final class SoundManager {
     func hapticHeavy()   { UIImpactFeedbackGenerator(style: .heavy).impactOccurred() }
     func hapticSuccess() { UINotificationFeedbackGenerator().notificationOccurred(.success) }
     func hapticError()   { UINotificationFeedbackGenerator().notificationOccurred(.error) }
+
+    // MARK: - Moteur de synthèse PCM
+
+    /// Génère un buffer PCM pour une séquence de notes (fréquence Hz, durée s)
+    private func play(notes: [(Float, Float)], volume: Float) {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+
+            let sampleRate: Double = 44100
+            let channels: Int = 1
+
+            // Durée totale
+            let totalSamples = notes.reduce(0) { $0 + Int(Double($1.1) * sampleRate) }
+            var pcm = [Float](repeating: 0, count: totalSamples)
+
+            var offset = 0
+            for (freq, dur) in notes {
+                let count = Int(Double(dur) * sampleRate)
+                let f = Double(freq)
+                let attack  = min(0.015, Double(dur) * 0.15)
+                let release = min(0.06,  Double(dur) * 0.30)
+
+                for i in 0..<count {
+                    let t = Double(i) / sampleRate
+                    // Sinus pur + légère harmonique
+                    let wave = sin(2 * .pi * f * t) * 0.80
+                               + sin(4 * .pi * f * t) * 0.12
+                               + sin(6 * .pi * f * t) * 0.05
+                    // Enveloppe ADSR simplifiée
+                    let env: Double
+                    if t < attack {
+                        env = t / attack
+                    } else if t > Double(dur) - release {
+                        env = max(0, (Double(dur) - t) / release)
+                    } else {
+                        env = 1.0
+                    }
+                    pcm[offset + i] = Float(wave * env * Double(volume))
+                }
+                offset += count
+            }
+
+            // Convertir en Data WAV
+            guard let data = self.wavData(pcm: pcm, sampleRate: Int(sampleRate), channels: channels) else { return }
+
+            DispatchQueue.main.async {
+                guard let player = try? AVAudioPlayer(data: data, fileTypeHint: AVFileType.wav.rawValue) else { return }
+                player.volume = 1.0
+                player.prepareToPlay()
+                player.play()
+                // Garder le player en vie jusqu'à la fin
+                self.players.append(player)
+                // Nettoyage après lecture
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(player.duration) + 0.3) { [weak self] in
+                    self?.players.removeAll { !$0.isPlaying }
+                }
+            }
+        }
+    }
+
+    // MARK: - Encodage WAV en mémoire
+
+    private func wavData(pcm: [Float], sampleRate: Int, channels: Int) -> Data? {
+        let bitsPerSample = 16
+        let bytesPerSample = bitsPerSample / 8
+        let byteRate = sampleRate * channels * bytesPerSample
+        let blockAlign = channels * bytesPerSample
+        let dataSize = pcm.count * bytesPerSample
+        let chunkSize = 36 + dataSize
+
+        var data = Data()
+        // RIFF header
+        data.append(contentsOf: Array("RIFF".utf8))
+        data.append(uint32LE(UInt32(chunkSize)))
+        data.append(contentsOf: Array("WAVE".utf8))
+        // fmt chunk
+        data.append(contentsOf: Array("fmt ".utf8))
+        data.append(uint32LE(16))                          // chunk size
+        data.append(uint16LE(1))                           // PCM format
+        data.append(uint16LE(UInt16(channels)))
+        data.append(uint32LE(UInt32(sampleRate)))
+        data.append(uint32LE(UInt32(byteRate)))
+        data.append(uint16LE(UInt16(blockAlign)))
+        data.append(uint16LE(UInt16(bitsPerSample)))
+        // data chunk
+        data.append(contentsOf: Array("data".utf8))
+        data.append(uint32LE(UInt32(dataSize)))
+        // samples (clamp float → int16)
+        for sample in pcm {
+            let s = Int16(max(-1.0, min(1.0, sample)) * Float(Int16.max))
+            data.append(uint16LE(UInt16(bitPattern: s)))
+        }
+        return data
+    }
+
+    private func uint32LE(_ v: UInt32) -> Data {
+        var val = v.littleEndian
+        return Data(bytes: &val, count: 4)
+    }
+
+    private func uint16LE(_ v: UInt16) -> Data {
+        var val = v.littleEndian
+        return Data(bytes: &val, count: 2)
+    }
 }
