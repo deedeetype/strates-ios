@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-// MARK: - Phase de jeu
+// MARK: - Phases
 
 enum PhaseJeu: Equatable {
     case enCours
@@ -9,20 +9,14 @@ enum PhaseJeu: Equatable {
     case perdu
 }
 
-// MARK: - Résultat d'une tentative
-
-enum ResultatTentative {
-    case correct
-    case incorrect
-    case motVide
-}
+enum ResultatTentative { case correct, incorrect, motVide }
 
 // MARK: - GameViewModel
 
 @MainActor
 final class GameViewModel: ObservableObject {
 
-    // État publié
+    // Jeu
     @Published private(set) var mot: MotDuJour
     @Published private(set) var stratesRevelees: Int = 0
     @Published private(set) var tentatives: [String] = []
@@ -31,23 +25,28 @@ final class GameViewModel: ObservableObject {
     @Published var champSaisie: String = ""
     @Published var montrerStats: Bool = false
     @Published var montrerPartage: Bool = false
+    @Published var montrerArchive: Bool = false
 
-    // Score en temps réel
+    // Cœurs
+    @Published private(set) var coeurs: Int = 3
+    @Published private(set) var montrerSansCoeurs: Bool = false
+    let maxCoeurs = 3
+
+    // Score
     @Published private(set) var scoreActuel: Int = 1000
-    @Published private(set) var scoreDelta: Int = 0       // +/- affiché en animation
+    @Published private(set) var scoreDelta: Int = 0
     @Published private(set) var showDelta: Bool = false
-    @Published private(set) var shakeTrigger: Int = 0    // incrémenté pour déclencher shake
+    @Published private(set) var shakeTrigger: Int = 0
 
-    // Mascotte
-    @Published private(set) var mascoState: MascoState = .idle
+    // Personnage
+    @Published private(set) var characterEmotion: CharacterEmotion = .idle
 
-    // Score par strate disponible (decremental)
-    private let scoreParStrate: [Int] = [1000, 800, 600, 400, 250, 100]
-    private var penaliteTentative: Int = 50
+    // Streak
+    @Published private(set) var streakJours: Int = 0
 
-    var stratesVisibles: [Strate] {
-        Array(mot.strates.prefix(stratesRevelees + 1))
-    }
+    private let scoreParStrate = [1000, 800, 600, 400, 250, 100]
+
+    var stratesVisibles: [Strate] { Array(mot.strates.prefix(stratesRevelees + 1)) }
 
     var peutRévélerSuivante: Bool {
         guard case .enCours = phase else { return false }
@@ -59,44 +58,32 @@ final class GameViewModel: ObservableObject {
         return !champSaisie.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
-    var strateActuelle: Int {
-        mot.strates[stratesRevelees].id
-    }
-
+    var strateActuelle: Int { mot.strates[stratesRevelees].id }
     var scoreMax: Int { scoreParStrate[0] }
-
-    var scoreProgression: Double {
-        Double(scoreActuel) / Double(scoreMax)
-    }
+    var scoreProgression: Double { Double(scoreActuel) / Double(scoreMax) }
 
     var scoreEmoji: String {
-        let total = mot.strates.count
-        return (0..<total).map { i in
+        (0..<mot.strates.count).map { i in
             switch phase {
-            case .gagne(let strate):
-                let strateNum = mot.strates[i].id
-                return strateNum > strate ? "🟫" : "⬜"
-            case .perdu, .enCours:
-                return "⬛"
+            case .gagne(let s): return mot.strates[i].id > s ? "🟫" : "⬜"
+            case .perdu, .enCours: return "⬛"
             }
         }.joined()
     }
 
     var textePartage: String {
-        let dateStr = EtatJournalier.dateISO()
+        let d = EtatJournalier.dateISO()
         switch phase {
-        case .gagne(let strate):
-            return "STRATES 🪨 — \(dateStr)\n\(scoreEmoji)\nTrouvé à la strate \(strate) ! Score : \(scoreActuel) pts"
-        case .perdu:
-            return "STRATES 🪨 — \(dateStr)\n\(scoreEmoji)\nDéfaite..."
-        case .enCours:
-            return "STRATES 🪨 — \(dateStr)\nPartie en cours..."
+        case .gagne(let s): return "STRATES 🪨 — \(d)\n\(scoreEmoji)\nStrate \(s) · \(scoreActuel) pts 🔥\(streakJours)"
+        case .perdu:        return "STRATES 🪨 — \(d)\n\(scoreEmoji)\nDéfaite..."
+        case .enCours:      return "STRATES 🪨 — \(d)\nPartie en cours..."
         }
     }
 
     init() {
         self.mot = Calendrier.motDuJour()
         self.scoreActuel = scoreParStrate[0]
+        chargerStreakEtCoeurs()
         chargerEtat()
     }
 
@@ -104,42 +91,25 @@ final class GameViewModel: ObservableObject {
 
     func révélerStrate() {
         guard peutRévélerSuivante else { return }
-
         SoundManager.shared.playReveal()
-        SoundManager.shared.hapticLight()
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) { stratesRevelees += 1 }
 
-        withAnimation(.spring(response: 0.45, dampingFraction: 0.75)) {
-            stratesRevelees += 1
-        }
-
-        // Pénalité score pour révélation
-        let ancienScore = scoreActuel
-        let nouveauScore = scoreParStrate[min(stratesRevelees, scoreParStrate.count - 1)]
-        let delta = nouveauScore - ancienScore
-
-        withAnimation(.easeOut(duration: 0.3).delay(0.2)) {
-            scoreActuel = nouveauScore
-        }
+        let nouveau = scoreParStrate[min(stratesRevelees, scoreParStrate.count - 1)]
+        let delta = nouveau - scoreActuel
+        withAnimation(.easeOut(duration: 0.4).delay(0.15)) { scoreActuel = nouveau }
         afficherDelta(delta)
 
-        // Mascotte réagit
-        withAnimation { mascoState = .curious }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
-            withAnimation { self?.mascoState = .idle }
+        withAnimation { characterEmotion = .thinking }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            withAnimation { self?.characterEmotion = .idle }
         }
-
-        sauvegarderEtat()
-        clearResultat()
+        sauvegarderEtat(); clearResultat()
     }
 
     func tenterMot() {
         guard case .enCours = phase else { return }
         let input = champSaisie.trimmingCharacters(in: .whitespaces).uppercased()
-        guard !input.isEmpty else {
-            dernierResultat = .motVide
-            return
-        }
-
+        guard !input.isEmpty else { dernierResultat = .motVide; return }
         champSaisie = ""
 
         if input == mot.reponse {
@@ -147,92 +117,130 @@ final class GameViewModel: ObservableObject {
             let strate = strateActuelle
             phase = .gagne(strate: strate)
             dernierResultat = .correct
-
             SoundManager.shared.playVictory()
-            SoundManager.shared.hapticSuccess()
 
-            // Mascotte victoire
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
-                mascoState = .celebrating
+            // Streak
+            incrementerStreak()
+
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.45)) {
+                characterEmotion = .celebrating
             }
 
             var stats = Statistiques.charger()
-            stats.enregistrerVictoire(strate: strate)
+            stats.enregistrerVictoire(strate: strate, score: scoreActuel)
             sauvegarderEtat()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { [weak self] in
                 self?.montrerPartage = true
             }
+
         } else {
             tentatives.append(input)
             dernierResultat = .incorrect
-
-            SoundManager.shared.playIncorrect()
-            SoundManager.shared.hapticError()
-
-            // Shake
             shakeTrigger += 1
 
-            // Pénalité tentative
-            let delta = -penaliteTentative
-            let nouveauScore = max(0, scoreActuel + delta)
-            withAnimation(.easeOut(duration: 0.4)) {
-                scoreActuel = nouveauScore
+            // Perdre un cœur
+            SoundManager.shared.playHeartLost()
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) {
+                coeurs = max(0, coeurs - 1)
+                characterEmotion = .scared
             }
-            afficherDelta(delta)
+            afficherDelta(-100)
 
-            // Mascotte triste
-            withAnimation { mascoState = .sad }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-                withAnimation { self?.mascoState = .idle }
+            if coeurs == 0 {
+                // Plus de cœurs = défaite
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                    withAnimation { self?.characterEmotion = .sad }
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                        self?.montrerSansCoeurs = true
+                    }
+                    self?.phase = .perdu
+                    var stats = Statistiques.charger()
+                    stats.enregistrerDefaite()
+                    self?.sauvegarderEtat()
+                    self?.resetStreakSiNecessaire()
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { [weak self] in
+                    withAnimation { self?.characterEmotion = .idle }
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) { [weak self] in
+                    self?.clearResultat()
+                }
             }
-
             sauvegarderEtat()
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-                self?.clearResultat()
-            }
         }
     }
 
     func déclarerDéfaite() {
         guard case .enCours = phase else { return }
         phase = .perdu
-        dernierResultat = nil
-
         SoundManager.shared.playDefeat()
-        SoundManager.shared.hapticError()
-
-        withAnimation { mascoState = .sad }
-
+        withAnimation { characterEmotion = .sad }
         var stats = Statistiques.charger()
         stats.enregistrerDefaite()
+        resetStreakSiNecessaire()
         sauvegarderEtat()
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.montrerPartage = true
         }
     }
 
-    func clearResultat() {
-        dernierResultat = nil
+    func fermerSansCoeurs() {
+        montrerSansCoeurs = false
+        montrerPartage = true
     }
+
+    func clearResultat() { dernierResultat = nil }
 
     // MARK: - Score delta
 
     private func afficherDelta(_ delta: Int) {
         scoreDelta = delta
-        withAnimation(.easeIn(duration: 0.15)) {
-            showDelta = true
-        }
+        withAnimation(.easeIn(duration: 0.15)) { showDelta = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) { [weak self] in
-            withAnimation(.easeOut(duration: 0.3)) {
-                self?.showDelta = false
-            }
+            withAnimation(.easeOut(duration: 0.3)) { self?.showDelta = false }
         }
     }
 
+    // MARK: - Streak
+
+    private func incrementerStreak() {
+        var stats = Statistiques.charger()
+        streakJours = stats.serieActuelle + 1
+        if streakJours >= 3 { SoundManager.shared.playStreak() }
+    }
+
+    private func resetStreakSiNecessaire() {
+        streakJours = 0
+    }
+
     // MARK: - Persistence
+
+    private func chargerStreakEtCoeurs() {
+        let stats = Statistiques.charger()
+        streakJours = stats.serieActuelle
+
+        // Cœurs rechargés chaque nouveau jour
+        if let dateStr = UserDefaults.standard.string(forKey: "coeurDate") {
+            if dateStr == EtatJournalier.dateISO() {
+                coeurs = UserDefaults.standard.integer(forKey: "coeurs")
+                if coeurs == 0 { coeurs = maxCoeurs } // sécurité
+            } else {
+                // Nouveau jour → recharge
+                coeurs = maxCoeurs
+                sauvegarderCoeurs()
+            }
+        } else {
+            coeurs = maxCoeurs
+            sauvegarderCoeurs()
+        }
+    }
+
+    private func sauvegarderCoeurs() {
+        UserDefaults.standard.set(coeurs, forKey: "coeurs")
+        UserDefaults.standard.set(EtatJournalier.dateISO(), forKey: "coeurDate")
+    }
 
     private func chargerEtat() {
         guard let etat = EtatJournalier.charger(), etat.motID == mot.id else { return }
@@ -241,24 +249,20 @@ final class GameViewModel: ObservableObject {
         scoreActuel = etat.score
 
         if etat.estGagne {
-            let strateVictoire = mot.strates[stratesRevelees].id
-            phase = .gagne(strate: strateVictoire)
-            mascoState = .celebrating
+            phase = .gagne(strate: mot.strates[stratesRevelees].id)
+            characterEmotion = .celebrating
         } else if etat.estPerdu {
             phase = .perdu
-            mascoState = .sad
+            characterEmotion = .sad
         }
     }
 
     private func sauvegarderEtat() {
+        sauvegarderCoeurs()
         var etat = EtatJournalier(
-            dateISO: EtatJournalier.dateISO(),
-            motID: mot.id,
-            stratesRevelees: stratesRevelees,
-            tentatives: tentatives,
-            estGagne: false,
-            estPerdu: false,
-            score: scoreActuel
+            dateISO: EtatJournalier.dateISO(), motID: mot.id,
+            stratesRevelees: stratesRevelees, tentatives: tentatives,
+            estGagne: false, estPerdu: false, score: scoreActuel
         )
         switch phase {
         case .gagne: etat.estGagne = true
@@ -267,13 +271,4 @@ final class GameViewModel: ObservableObject {
         }
         etat.sauvegarder()
     }
-}
-
-// MARK: - État mascotte
-
-enum MascoState: Equatable {
-    case idle
-    case curious
-    case celebrating
-    case sad
 }

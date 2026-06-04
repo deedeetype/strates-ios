@@ -18,6 +18,9 @@
 		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
 		A1000010 /* MascoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011; };
 		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
+		A1000012 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013; };
+		A1000013 /* HeartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014; };
+		A1000014 /* ArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,75 +36,54 @@
 		A2000010 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		A2000011 /* MascoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascoView.swift; sourceTree = "<group>"; };
 		A2000012 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
+		A2000013 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
+		A2000014 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
+		A2000015 /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A3000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-			);
+			files = ( );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A4000000 /* root */ = {
+			isa = PBXGroup;
+			children = ( A4000001, A4000005 );
+			sourceTree = "<group>";
+		};
 		A4000001 /* Strates */ = {
 			isa = PBXGroup;
-			children = (
-				A2000001 /* StratesApp.swift */,
-				A4000002 /* Models */,
-				A4000003 /* ViewModels */,
-				A4000004 /* Views */,
-				A2000008 /* Assets.xcassets */,
-			);
+			children = ( A2000001, A4000002, A4000003, A4000004, A2000008 );
 			path = Strates;
 			sourceTree = "<group>";
 		};
 		A4000002 /* Models */ = {
 			isa = PBXGroup;
-			children = (
-				A2000002 /* WordModel.swift */,
-				A2000003 /* PersistenceModel.swift */,
-			);
+			children = ( A2000002, A2000003 );
 			path = Models;
 			sourceTree = "<group>";
 		};
 		A4000003 /* ViewModels */ = {
 			isa = PBXGroup;
-			children = (
-				A2000004 /* GameViewModel.swift */,
-			);
+			children = ( A2000004 );
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		A4000004 /* Views */ = {
 			isa = PBXGroup;
-			children = (
-				A2000005 /* ContentView.swift */,
-				A2000006 /* PartageView.swift */,
-				A2000007 /* StatsView.swift */,
-				A2000010 /* SoundManager.swift */,
-				A2000011 /* MascoView.swift */,
-				A2000012 /* ScoreView.swift */,
-			);
+			children = ( A2000005, A2000006, A2000007, A2000010, A2000011, A2000012, A2000013, A2000014, A2000015 );
 			path = Views;
 			sourceTree = "<group>";
 		};
 		A4000005 /* Products */ = {
 			isa = PBXGroup;
-			children = (
-				A2000009 /* Strates.app */,
-			);
+			children = ( A2000009 );
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A4000000 /* root */ = {
-			isa = PBXGroup;
-			children = (
-				A4000001 /* Strates */,
-				A4000005 /* Products */,
-			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,19 +91,13 @@
 /* Begin PBXNativeTarget section */
 		A5000001 /* Strates */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A7000001 /* Build configuration list for PBXNativeTarget "Strates" */;
-			buildPhases = (
-				A3000002 /* Sources */,
-				A3000001 /* Frameworks */,
-				A3000003 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
+			buildConfigurationList = A7000001;
+			buildPhases = ( A3000002, A3000001, A3000003 );
+			buildRules = ( );
+			dependencies = ( );
 			name = Strates;
 			productName = Strates;
-			productReference = A2000009 /* Strates.app */;
+			productReference = A2000009;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -133,27 +109,18 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-					A5000001 = {
-						CreatedOnToolsVersion = 15.0;
-					};
-				};
+				TargetAttributes = { A5000001 = { CreatedOnToolsVersion = 15.0; }; };
 			};
-			buildConfigurationList = A7000002 /* Build configuration list for PBXProject "Strates" */;
+			buildConfigurationList = A7000002;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = fr;
 			hasScannedForEncodings = 0;
-			knownRegions = (
-				fr,
-				Base,
-			);
+			knownRegions = ( fr, Base );
 			mainGroup = A4000000;
-			productRefGroup = A4000005 /* Products */;
+			productRefGroup = A4000005;
 			projectDirPath = "";
 			projectRoot = "";
-			targets = (
-				A5000001 /* Strates */,
-			);
+			targets = ( A5000001 );
 		};
 /* End PBXProject section */
 
@@ -161,9 +128,7 @@
 		A3000003 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-				A1000008 /* Assets.xcassets in Resources */,
-			);
+			files = ( A1000008 );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
@@ -173,16 +138,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000001 /* StratesApp.swift in Sources */,
-				A1000002 /* WordModel.swift in Sources */,
-				A1000003 /* PersistenceModel.swift in Sources */,
-				A1000004 /* GameViewModel.swift in Sources */,
-				A1000005 /* ContentView.swift in Sources */,
-				A1000006 /* PartageView.swift in Sources */,
-				A1000007 /* StatsView.swift in Sources */,
-				A1000009 /* SoundManager.swift in Sources */,
-				A1000010 /* MascoView.swift in Sources */,
-				A1000011 /* ScoreView.swift in Sources */,
+				A1000001, A1000002, A1000003, A1000004,
+				A1000005, A1000006, A1000007,
+				A1000009, A1000010, A1000011,
+				A1000012, A1000013, A1000014,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,53 +152,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNINITIALIZED = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = ( "DEBUG=1", "$(inherited)" );
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
@@ -251,46 +171,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNINITIALIZED = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
@@ -301,7 +187,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BUNDLE_IDENTIFIER = com.deedeetype.strates;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -309,12 +194,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -329,7 +211,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				BUNDLE_IDENTIFIER = com.deedeetype.strates;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -337,12 +218,9 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -355,26 +233,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A7000001 /* Build configuration list for PBXNativeTarget "Strates" */ = {
+		A7000001 = {
 			isa = XCConfigurationList;
-			buildConfigurations = (
-				A8000003 /* Debug */,
-				A8000004 /* Release */,
-			);
+			buildConfigurations = ( A8000003, A8000004 );
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A7000002 /* Build configuration list for PBXProject "Strates" */ = {
+		A7000002 = {
 			isa = XCConfigurationList;
-			buildConfigurations = (
-				A8000001 /* Debug */,
-				A8000002 /* Release */,
-			);
+			buildConfigurations = ( A8000001, A8000002 );
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 	};
-	rootObject = A6000001 /* Project object */;
+	rootObject = A6000001;
 }
