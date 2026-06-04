@@ -23,7 +23,6 @@ final class SoundManager {
         let sampleRate: Double = 44100
         let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
 
-        var offsetTime: AVAudioTime? = nil
         let startTime = AVAudioTime(hostTime: mach_absolute_time() + UInt64(0.01 * Double(NSEC_PER_SEC)))
 
         for (i, note) in notes.enumerated() {

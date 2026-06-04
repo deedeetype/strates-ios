@@ -191,6 +191,14 @@ final class GameViewModel: ObservableObject {
         montrerPartage = true
     }
 
+    func tapPersonnage() {
+        withAnimation { characterEmotion = .winking }
+        SoundManager.shared.hapticLight()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            withAnimation { self?.characterEmotion = .idle }
+        }
+    }
+
     func clearResultat() { dernierResultat = nil }
 
     // MARK: - Score delta

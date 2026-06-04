@@ -135,10 +135,7 @@ struct HeaderView: View {
             CharacterView(emotion: vm.characterEmotion, size: 100)
                 .onTapGesture {
                     SoundManager.shared.hapticLight()
-                    withAnimation { vm.characterEmotion = .winking }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                        withAnimation { vm.characterEmotion = .idle }
-                    }
+                    vm.tapPersonnage()
                 }
 
             VStack(alignment: .leading, spacing: 6) {
