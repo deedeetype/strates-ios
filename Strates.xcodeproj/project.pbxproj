@@ -19,7 +19,6 @@
 		A1000011 /* ScoreView.swift */ = {isa = PBXBuildFile; fileRef = A2000012; };
 		A1000012 /* CharacterView.swift */ = {isa = PBXBuildFile; fileRef = A2000013; };
 		A1000013 /* HeartsView.swift */ = {isa = PBXBuildFile; fileRef = A2000014; };
-		A1000014 /* ArchiveView.swift */ = {isa = PBXBuildFile; fileRef = A2000015; };
 		A1000015 /* TransitionView.swift */ = {isa = PBXBuildFile; fileRef = A2000016; };
 		A1000016 /* BadgeView.swift */ = {isa = PBXBuildFile; fileRef = A2000017; };
 /* End PBXBuildFile section */
@@ -38,7 +37,6 @@
 		A2000012 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		A2000013 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		A2000014 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
-		A2000015 /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveView.swift; sourceTree = "<group>"; };
 		A2000016 /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
 		A2000017 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */

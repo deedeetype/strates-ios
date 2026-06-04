@@ -74,8 +74,6 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button { vm.montrerArchive = true } label: {
-                        Image(systemName: "clock.arrow.circlepath").foregroundStyle(.secondary)
                     }
                 }
                 ToolbarItem(placement: .principal) {
@@ -89,7 +87,6 @@ struct ContentView: View {
             }
             .sheet(isPresented: $vm.montrerStats)   { StatsView() }
             .sheet(isPresented: $vm.montrerPartage) { PartageView(vm: vm) }
-            .sheet(isPresented: $vm.montrerArchive) { ArchiveView() }
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.7), value: vm.nouveauBadge?.rawValue)
         .animation(.spring(response: 0.35, dampingFraction: 0.65), value: vm.showComboPopup)

@@ -38,7 +38,6 @@ final class GameViewModel: ObservableObject {
     // ── Navigation ───────────────────────────────────────────────────────
     @Published var montrerStats: Bool = false
     @Published var montrerPartage: Bool = false
-    @Published var montrerArchive: Bool = false
     @Published var montrerTransition: Bool = false   // overlay "Mot suivant"
 
     // ── Cœurs (reset par mot) ────────────────────────────────────────────
