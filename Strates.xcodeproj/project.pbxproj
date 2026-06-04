@@ -21,6 +21,7 @@
 		A1000013 /* HeartsView.swift */ = {isa = PBXBuildFile; fileRef = A2000014; };
 		A1000015 /* TransitionView.swift */ = {isa = PBXBuildFile; fileRef = A2000016; };
 		A1000016 /* BadgeView.swift */ = {isa = PBXBuildFile; fileRef = A2000017; };
+		A1000017 /* SplashView.swift */ = {isa = PBXBuildFile; fileRef = A2000018; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		A2000014 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
 		A2000016 /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
 		A2000017 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		A2000018 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +54,7 @@
 		A4000003 /* ViewModels */ = { isa = PBXGroup; children = (A2000004); path = ViewModels; sourceTree = "<group>"; };
 		A4000004 /* Views */ = {
 			isa = PBXGroup;
-			children = (A2000005, A2000006, A2000007, A2000010, A2000012, A2000013, A2000014, A2000015, A2000016, A2000017);
+			children = (A2000005, A2000006, A2000007, A2000010, A2000012, A2000013, A2000014, A2000015, A2000016, A2000017, A2000018);
 			path = Views;
 			sourceTree = "<group>";
 		};
@@ -98,7 +100,7 @@
 		A3000002 = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (A1000001, A1000002, A1000003, A1000004, A1000005, A1000006, A1000007, A1000009, A1000011, A1000012, A1000013, A1000014, A1000015, A1000016);
+			files = (A1000001, A1000002, A1000003, A1000004, A1000005, A1000006, A1000007, A1000009, A1000011, A1000012, A1000013, A1000014, A1000015, A1000016, A1000017);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
