@@ -53,7 +53,7 @@ struct ComboPopupView: View {
                 .foregroundStyle(LinearGradient(
                     colors: [.orange, .yellow],
                     startPoint: .leading, endPoint: .trailing))
-            Text("Continuez sans révéler !")
+            Text("Mots trouvés sans révéler !")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }

@@ -374,11 +374,12 @@ final class GameViewModel: ObservableObject {
     private func verifierBadges(stats: Statistiques, strate: Int, score: Int) {
         var badge: Badge? = nil
 
-        if score >= 1000 && strate == 6 { badge = .parfait }
-        else if stats.partiesGagnees == 1 { badge = .premierMot }
-        else if stats.serieActuelle >= 7 { badge = .semaine }
-        else if strate == 6 { badge = .strateSix }
-        else if comboActuel >= 3 { badge = .combo3 }
+        // Priorité : combo en session > score parfait > strate 6 > premier mot > streak jours
+        if comboActuel >= 3                { badge = .combo3 }
+        else if score >= 1000 && strate == 6 { badge = .parfait }
+        else if strate == 6                { badge = .strateSix }
+        else if stats.partiesGagnees == 1  { badge = .premierMot }
+        else if streakJours >= 7           { badge = .semaine }
 
         if let b = badge {
             nouveauBadge = b
@@ -426,10 +427,10 @@ final class GameViewModel: ObservableObject {
 
 enum Badge: String, CaseIterable {
     case premierMot  = "Première victoire ! 🎉"
-    case strateSix   = "Trouvé dès la strate 6 ! 🧠"
-    case parfait     = "Score parfait ! ⭐"
-    case semaine     = "7 jours de suite ! 🔥"
-    case combo3      = "Combo x3 ! ⚡"
+    case strateSix   = "Trouvé à la strate 6 ! 🧠"
+    case parfait     = "Score parfait 1000 pts ! ⭐"
+    case semaine     = "7 jours consécutifs ! 🔥"
+    case combo3      = "Combo x3 en session ! ⚡"
 
     var icone: String {
         switch self {
