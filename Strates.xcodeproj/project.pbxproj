@@ -16,7 +16,6 @@
 		A1000007 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007; };
 		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008; };
 		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
-		A1000010 /* MascoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011; };
 		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
 		A1000012 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013; };
 		A1000013 /* HeartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014; };
@@ -34,7 +33,6 @@
 		A2000008 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2000009 /* Strates.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Strates.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000010 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
-		A2000011 /* MascoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascoView.swift; sourceTree = "<group>"; };
 		A2000012 /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		A2000013 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		A2000014 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
@@ -76,7 +74,7 @@
 		};
 		A4000004 /* Views */ = {
 			isa = PBXGroup;
-			children = ( A2000005, A2000006, A2000007, A2000010, A2000011, A2000012, A2000013, A2000014, A2000015 );
+			children = ( A2000005, A2000006, A2000007, A2000010, A2000012, A2000013, A2000014, A2000015 );
 			path = Views;
 			sourceTree = "<group>";
 		};
@@ -140,7 +138,7 @@
 			files = (
 				A1000001, A1000002, A1000003, A1000004,
 				A1000005, A1000006, A1000007,
-				A1000009, A1000010, A1000011,
+				A1000009, A1000011,
 				A1000012, A1000013, A1000014,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

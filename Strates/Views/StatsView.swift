@@ -89,7 +89,7 @@ struct StatsView: View {
                             .padding(.horizontal, 16)
                         } else {
                             VStack(spacing: 12) {
-                                MascoView(state: .curious)
+                                CharacterView(emotion: .thinking, size: 80)
                                 Text("Jouez votre première partie\npour voir vos stats !")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)

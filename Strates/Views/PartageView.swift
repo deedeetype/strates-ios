@@ -18,7 +18,7 @@ struct PartageView: View {
                     Spacer()
 
                     // Mascotte en mode résultat
-                    MascoView(state: vm.mascoState)
+                    CharacterView(emotion: vm.characterEmotion, size: 90)
                         .scaleEffect(1.3)
 
                     // Résultat
