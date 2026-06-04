@@ -175,3 +175,14 @@ struct Calendrier {
         return result
     }
 }
+
+extension Calendrier {
+    static func indexDuJour() -> Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        var comps = DateComponents(); comps.year = 2025; comps.month = 1; comps.day = 1
+        let ref = calendar.startOfDay(for: calendar.date(from: comps) ?? Date())
+        let days = calendar.dateComponents([.day], from: ref, to: today).day ?? 0
+        return ((days % mots.count) + mots.count) % mots.count
+    }
+}

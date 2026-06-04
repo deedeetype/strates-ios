@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* StratesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001; };
-		A1000002 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002; };
-		A1000003 /* PersistenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003; };
-		A1000004 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004; };
-		A1000005 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005; };
-		A1000006 /* PartageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006; };
-		A1000007 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007; };
-		A1000008 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000008; };
-		A1000009 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010; };
-		A1000011 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012; };
-		A1000012 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013; };
-		A1000013 /* HeartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014; };
-		A1000014 /* ArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015; };
+		A1000001 /* StratesApp.swift */ = {isa = PBXBuildFile; fileRef = A2000001; };
+		A1000002 /* WordModel.swift */ = {isa = PBXBuildFile; fileRef = A2000002; };
+		A1000003 /* PersistenceModel.swift */ = {isa = PBXBuildFile; fileRef = A2000003; };
+		A1000004 /* GameViewModel.swift */ = {isa = PBXBuildFile; fileRef = A2000004; };
+		A1000005 /* ContentView.swift */ = {isa = PBXBuildFile; fileRef = A2000005; };
+		A1000006 /* PartageView.swift */ = {isa = PBXBuildFile; fileRef = A2000006; };
+		A1000007 /* StatsView.swift */ = {isa = PBXBuildFile; fileRef = A2000007; };
+		A1000008 /* Assets.xcassets */ = {isa = PBXBuildFile; fileRef = A2000008; };
+		A1000009 /* SoundManager.swift */ = {isa = PBXBuildFile; fileRef = A2000010; };
+		A1000011 /* ScoreView.swift */ = {isa = PBXBuildFile; fileRef = A2000012; };
+		A1000012 /* CharacterView.swift */ = {isa = PBXBuildFile; fileRef = A2000013; };
+		A1000013 /* HeartsView.swift */ = {isa = PBXBuildFile; fileRef = A2000014; };
+		A1000014 /* ArchiveView.swift */ = {isa = PBXBuildFile; fileRef = A2000015; };
+		A1000015 /* TransitionView.swift */ = {isa = PBXBuildFile; fileRef = A2000016; };
+		A1000016 /* BadgeView.swift */ = {isa = PBXBuildFile; fileRef = A2000017; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,62 +39,35 @@
 		A2000013 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		A2000014 /* HeartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartsView.swift; sourceTree = "<group>"; };
 		A2000015 /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveView.swift; sourceTree = "<group>"; };
+		A2000016 /* TransitionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionView.swift; sourceTree = "<group>"; };
+		A2000017 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		A3000001 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = ( );
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+		A3000001 = { isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A4000000 /* root */ = {
-			isa = PBXGroup;
-			children = ( A4000001, A4000005 );
-			sourceTree = "<group>";
-		};
-		A4000001 /* Strates */ = {
-			isa = PBXGroup;
-			children = ( A2000001, A4000002, A4000003, A4000004, A2000008 );
-			path = Strates;
-			sourceTree = "<group>";
-		};
-		A4000002 /* Models */ = {
-			isa = PBXGroup;
-			children = ( A2000002, A2000003 );
-			path = Models;
-			sourceTree = "<group>";
-		};
-		A4000003 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = ( A2000004 );
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
+		A4000000 = { isa = PBXGroup; children = (A4000001, A4000005); sourceTree = "<group>"; };
+		A4000001 /* Strates */ = { isa = PBXGroup; children = (A2000001, A4000002, A4000003, A4000004, A2000008); path = Strates; sourceTree = "<group>"; };
+		A4000002 /* Models */ = { isa = PBXGroup; children = (A2000002, A2000003); path = Models; sourceTree = "<group>"; };
+		A4000003 /* ViewModels */ = { isa = PBXGroup; children = (A2000004); path = ViewModels; sourceTree = "<group>"; };
 		A4000004 /* Views */ = {
 			isa = PBXGroup;
-			children = ( A2000005, A2000006, A2000007, A2000010, A2000012, A2000013, A2000014, A2000015 );
+			children = (A2000005, A2000006, A2000007, A2000010, A2000012, A2000013, A2000014, A2000015, A2000016, A2000017);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A4000005 /* Products */ = {
-			isa = PBXGroup;
-			children = ( A2000009 );
-			name = Products;
-			sourceTree = "<group>";
-		};
+		A4000005 /* Products */ = { isa = PBXGroup; children = (A2000009); name = Products; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A5000001 /* Strates */ = {
+		A5000001 = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A7000001;
-			buildPhases = ( A3000002, A3000001, A3000003 );
-			buildRules = ( );
-			dependencies = ( );
+			buildPhases = (A3000002, A3000001, A3000003);
+			buildRules = ();
+			dependencies = ();
 			name = Strates;
 			productName = Strates;
 			productReference = A2000009;
@@ -101,148 +76,45 @@
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		A6000001 /* Project object */ = {
+		A6000001 = {
 			isa = PBXProject;
-			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
-				TargetAttributes = { A5000001 = { CreatedOnToolsVersion = 15.0; }; };
-			};
+			attributes = { BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1500; LastUpgradeCheck = 1500; TargetAttributes = { A5000001 = { CreatedOnToolsVersion = 15.0; }; }; };
 			buildConfigurationList = A7000002;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = fr;
 			hasScannedForEncodings = 0;
-			knownRegions = ( fr, Base );
+			knownRegions = (fr, Base);
 			mainGroup = A4000000;
 			productRefGroup = A4000005;
 			projectDirPath = "";
 			projectRoot = "";
-			targets = ( A5000001 );
+			targets = (A5000001);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		A3000003 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = ( A1000008 );
-			runOnlyForDeploymentPostprocessing = 0;
-		};
+		A3000003 = { isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A1000008); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A3000002 /* Sources */ = {
+		A3000002 = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-				A1000001, A1000002, A1000003, A1000004,
-				A1000005, A1000006, A1000007,
-				A1000009, A1000011,
-				A1000012, A1000013, A1000014,
-			);
+			files = (A1000001, A1000002, A1000003, A1000004, A1000005, A1000006, A1000007, A1000009, A1000011, A1000012, A1000013, A1000014, A1000015, A1000016);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		A8000001 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_TESTABILITY = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = ( "DEBUG=1", "$(inherited)" );
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		A8000002 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
-			};
-			name = Release;
-		};
-		A8000003 /* Debug target */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		A8000004 /* Release target */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks" );
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
+		A8000001 = { isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_TESTABILITY = YES; GCC_OPTIMIZATION_LEVEL = 0; GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)"); IPHONEOS_DEPLOYMENT_TARGET = 17.0; ONLY_ACTIVE_ARCH = YES; SDKROOT = iphoneos; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)"; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; }; name = Debug; };
+		A8000002 = { isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SDKROOT = iphoneos; SWIFT_COMPILATION_MODE = wholemodule; }; name = Release; };
+		A8000003 = { isa = XCBuildConfiguration; buildSettings = { ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		A8000004 = { isa = XCBuildConfiguration; buildSettings = { ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; DEVELOPMENT_TEAM = ""; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES; INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES; INFOPLIST_KEY_UILaunchScreen_Generation = YES; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"; LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks"); MARKETING_VERSION = 1.0; PRODUCT_BUNDLE_IDENTIFIER = com.deedeetype.strates; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A7000001 = {
-			isa = XCConfigurationList;
-			buildConfigurations = ( A8000003, A8000004 );
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A7000002 = {
-			isa = XCConfigurationList;
-			buildConfigurations = ( A8000001, A8000002 );
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
+		A7000001 = { isa = XCConfigurationList; buildConfigurations = (A8000003, A8000004); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		A7000002 = { isa = XCConfigurationList; buildConfigurations = (A8000001, A8000002); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
 
 	};
